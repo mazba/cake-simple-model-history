@@ -1,6 +1,6 @@
 {
     "name": "your-name-here/CakeSimpleModelHistory",
-    "description": "CakeSimpleModelHistory plugin for CakePHP",
+    "description": "CakeSimpleModelHistory plugin for CakePHP (mazba.github.io)",
     "type": "cakephp-plugin",
     "require": {
         "php": ">=5.5.9",
