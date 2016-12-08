@@ -80,8 +80,8 @@ class ActivityLogsTable extends Table
         $entity_data['user_group_id'] = isset($data['logged_in_user_group_id'])?$data['logged_in_user_group_id']:'';
         $entity_data['action'] = $action;
         $entity_data['data'] = $entity_jsonfy;
-        $entity_data['user_input_data'] = isset($data['user_input_data'])?$data['user_input_data']:'';;
         $entity_data['ip_address'] = isset($data['user_ip'])?$data['user_ip']:'';;
+        $entity_data['user_input_data'] = isset($data['user_input_data'])?json_encode($data['user_input_data']):'';
         $entity_data['url'] = isset($data['url'])?$data['url']:'';
 //        echo '<pre>';print_r($entity_data);die;
         $newEntity = $this->newEntity($entity_data);

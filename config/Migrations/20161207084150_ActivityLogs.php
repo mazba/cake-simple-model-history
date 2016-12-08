@@ -39,6 +39,18 @@ class ActivityLogs extends AbstractMigration
                 'limit' => 255,
                 'null' => true,
             ])
+            ->addColumn('user_input_data', 'text', [
+                'comment' => 'json data of form input',
+                'default' => null,
+                'limit' => 16777215,
+                'null' => true,
+            ])
+            ->addColumn('url', 'string', [
+                'comment' => 'url of the request',
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
