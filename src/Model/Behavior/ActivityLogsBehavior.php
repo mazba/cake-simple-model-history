@@ -2,6 +2,8 @@
 namespace CakeSimpleModelHistory\Model\Behavior;
 
 use ArrayObject;
+use Cake\Controller\Component\AuthComponent;
+use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -27,6 +29,8 @@ class ActivityLogsBehavior extends Behavior
 
 
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options){
-
+        if(empty($options['mazba']))
+            return;
+        $this->activityLogs->addActivity($event,$entity,$options['mazba']);
     }
 }

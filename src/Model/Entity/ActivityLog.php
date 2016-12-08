@@ -20,6 +20,11 @@ use Cake\ORM\Entity;
  */
 class ActivityLog extends Entity
 {
+    const ACTION_ADD = 'create';
+    const ACTION_EDIT = 'update';
+    const ACTION_DELETE = 'delete';
+    const ACTION_VIEW = 'view';
+    const ACTION_REPORT_VIEW = 'report view';
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

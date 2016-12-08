@@ -2,10 +2,12 @@
 namespace CakeSimpleModelHistory\Model\Table;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use CakeSimpleModelHistory\Model\Entity\ActivityLog;
 
 /**
  * ActivityLogs Model
@@ -51,5 +53,39 @@ class ActivityLogsTable extends Table
             'className' => 'CakeSimpleModelHistory.UserGroups'
         ]);
     }
-   
+    public function addActivity(Event $event,EntityInterface $entity,$data){
+        $model = $entity->source();
+        if (substr($model, -5) == 'Table') {
+            $model = substr($model, 0, -5);
+        }
+        if($entity->isNew()){
+            $action = ActivityLog::ACTION_ADD;
+            $entity_jsonfy = json_encode($entity->toArray());
+        }
+        else{
+            $action = ActivityLog::ACTION_EDIT;
+            $entity_jsonfy = [
+                'new_data'=>$entity->toArray(),
+                'original_data'=>$entity->extractOriginal($entity->visibleProperties())
+            ];
+            $entity_jsonfy = json_encode($entity_jsonfy);
+        }
+//        echo '<pre>';
+//        print_r($entity_jsonfy);die;
+//        print_r($entity->toArray());
+//        print_r($entity->extractOriginal($entity->visibleProperties()));die;
+        $entity_data = [];
+        $entity_data['model'] = $model;
+        $entity_data['user_id'] = isset($data['logged_in_user_id'])?$data['logged_in_user_id']:'';
+        $entity_data['user_group_id'] = isset($data['logged_in_user_group_id'])?$data['logged_in_user_group_id']:'';
+        $entity_data['action'] = $action;
+        $entity_data['data'] = $entity_jsonfy;
+        $entity_data['user_input_data'] = isset($data['user_input_data'])?$data['user_input_data']:'';;
+        $entity_data['ip_address'] = isset($data['user_ip'])?$data['user_ip']:'';;
+        $entity_data['url'] = isset($data['url'])?$data['url']:'';
+//        echo '<pre>';print_r($entity_data);die;
+        $newEntity = $this->newEntity($entity_data);
+        $this->save($newEntity);
+
+    }
 }
