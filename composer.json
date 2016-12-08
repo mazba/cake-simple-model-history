@@ -1,5 +1,5 @@
 {
-    "name": "your-name-here/CakeSimpleModelHistory",
+    "name": "mazba/cake-simple-model-history",
     "description": "CakeSimpleModelHistory plugin for CakePHP (mazba.github.io)",
     "type": "cakephp-plugin",
     "require": {
