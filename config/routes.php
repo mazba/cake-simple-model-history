@@ -10,3 +10,10 @@ Router::plugin(
         $routes->fallbacks(DashedRoute::class);
     }
 );
+//Router::plugin(
+//    'ActivityLogs',
+//    ['path' => '/activity-logs'],
+//    function ($routes) {
+//        $routes->fallbacks(DashedRoute::class);
+//    }
+//);
