@@ -1,55 +1,106 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Activity Log'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List User Groups'), ['controller' => 'UserGroups', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User Group'), ['controller' => 'UserGroups', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="activityLogs index large-9 medium-8 columns content">
-    <h3><?= __('Activity Logs') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('model') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('user_group_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('action') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ip_address') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('url') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($activityLogs as $activityLog): ?>
-            <tr>
-                <td><?= $this->Number->format($activityLog->id) ?></td>
-                <td><?= h($activityLog->model) ?></td>
-                <td><?= $activityLog->has('user') ? $this->Html->link($activityLog->user->id, ['controller' => 'Users', 'action' => 'view', $activityLog->user->id]) : '' ?></td>
-                <td><?= $activityLog->has('user_group') ? $this->Html->link($activityLog->user_group->id, ['controller' => 'UserGroups', 'action' => 'view', $activityLog->user_group->id]) : '' ?></td>
-                <td><?= h($activityLog->action) ?></td>
-                <td><?= h($activityLog->ip_address) ?></td>
-                <td><?= h($activityLog->url) ?></td>
-                <td><?= h($activityLog->created) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $activityLog->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $activityLog->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $activityLog->id], ['confirm' => __('Are you sure you want to delete # {0}?', $activityLog->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxcore.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxgrid.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxscrollbar.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxdropdownlist.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxgrid.pager.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxbuttons.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxcheckbox.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxlistbox.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxdropdownlist.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxmenu.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxgrid.sort.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxlistbox.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxmenu.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxgrid.filter.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxgrid.selection.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxgrid.columnsresize.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxdata.js'); ?>
+<?php echo $this->Html->script('CakeSimpleModelHistory.jq_g/jqxdatatable.js'); ?>
+<?php echo $this->Html->css('CakeSimpleModelHistory.jq_g/jqx.base.css'); ?>
+<?php echo $this->Html->css('CakeSimpleModelHistory.app'); ?>
+<div class="mk-wrp">
+    <h2 class="header"><?= __('Activity Logs (Data History)') ?></h2>
+    <div class="row">
+        <div class="col-xs-6 col-sm-3">
+            <div class="btn-danger btn-circle btn-xl">
+                <i class="fa fa-database"></i>
+                <h5><?= __('Number of History') ?></h5>
+                <strong><?= $this->Number->format('545455454') ?></strong>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="btn-danger btn-circle btn-xl">
+                <i class="fa fa-server"></i>
+                <h5><?= __('Number of Model') ?></h5>
+                <strong><?= $this->Number->format('545455454') ?></strong>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="btn-danger btn-circle btn-xl">
+                <i class="fa fa-calendar-times-o"></i>
+                <h5><?= __('Total Day') ?></h5>
+                <strong><?= $this->Number->format('545455454') ?></strong>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            <div class="btn-danger btn-circle btn-xl">
+                <i class="fa fa-users"></i>
+                <h5><?= __('Number of User') ?></h5>
+                <strong><?= $this->Number->format('545455454') ?></strong>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="dataTable"></div>
+        </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var url = "<?= $this->Url->build(["controller" => "ActivityLogs","action" => "ajax",'index']); ?>";
+
+        // prepare the data
+        var source =
+        {
+            dataType: "json",
+            dataFields: [
+                {name: 'id', type: 'int'},
+                {name: 'model', type: 'string'},
+                {name: 'user', type: 'string'},
+                {name: 'group', type: 'string'},
+                {name: 'ip_address', type: 'string'},
+                {name: 'action', type: 'string'},
+                {name: 'date', type: 'string'},
+                {name: 'edit', type: 'string'},
+            ],
+            id: 'id',
+            url: url
+        };
+
+        var dataAdapter = new $.jqx.dataAdapter(source);
+
+        $("#dataTable").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                pageable: true,
+                filterable: true,
+                sortable: true,
+                showfilterrow: true,
+                columnsresize: true,
+                pagesize: 15,
+                pagesizeoptions: ['100', '200', '300', '500', '1000', '1500'],
+                altrows: true,
+                autoheight: true,
+                columns: [
+                    {text: 'Model', dataField: 'model', width: '20%'},
+                    {text: 'User', dataField: 'user', width: '20%'},
+                    {text: 'Group', dataField: 'edit', cellsalign: 'center', width: '15%'},
+                    {text: 'IP Address', dataField: 'ip_address', cellsalign: 'center', width: '15%'},
+                    {text: 'Action', dataField: 'action', cellsalign: 'center', width: '15%'},
+                    {text: 'Date', dataField: 'date', cellsalign: 'center', width: '15%'}
+                ]
+            });
+    });
+</script>
