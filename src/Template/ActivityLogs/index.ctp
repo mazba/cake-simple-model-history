@@ -25,28 +25,28 @@
             <div class="btn-danger btn-circle btn-xl">
                 <i class="fa fa-database"></i>
                 <h5><?= __('Number of History') ?></h5>
-                <strong><?= $this->Number->format('545455454') ?></strong>
+                <strong><?= $this->Number->format($row) ?></strong>
             </div>
         </div>
         <div class="col-xs-6 col-sm-3">
             <div class="btn-danger btn-circle btn-xl">
                 <i class="fa fa-server"></i>
                 <h5><?= __('Number of Model') ?></h5>
-                <strong><?= $this->Number->format('545455454') ?></strong>
+                <strong><?= $this->Number->format($model) ?></strong>
             </div>
         </div>
         <div class="col-xs-6 col-sm-3">
             <div class="btn-danger btn-circle btn-xl">
                 <i class="fa fa-calendar-times-o"></i>
                 <h5><?= __('Total Day') ?></h5>
-                <strong><?= $this->Number->format('545455454') ?></strong>
+                <strong><?= $this->Number->format($date) ?></strong>
             </div>
         </div>
         <div class="col-xs-6 col-sm-3">
             <div class="btn-danger btn-circle btn-xl">
                 <i class="fa fa-users"></i>
                 <h5><?= __('Number of User') ?></h5>
-                <strong><?= $this->Number->format('545455454') ?></strong>
+                <strong><?= $this->Number->format($user) ?></strong>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
                 {name: 'ip_address', type: 'string'},
                 {name: 'action', type: 'string'},
                 {name: 'date', type: 'string'},
-                {name: 'edit', type: 'string'},
+                {name: 'view', type: 'string'},
             ],
             id: 'id',
             url: url

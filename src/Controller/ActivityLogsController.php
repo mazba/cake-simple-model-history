@@ -24,6 +24,12 @@ class ActivityLogsController extends AppController
      */
     public function index()
     {
+        $query = $this->ActivityLogs->find();
+        $row = $this->ActivityLogs->find()->count();
+        $model = $this->ActivityLogs->find()->group(['model'])->count();
+        $date = $this->ActivityLogs->find()->group(['created'])->count();
+        $user = $this->ActivityLogs->find()->group(['user_id'])->count();
+        $this->set(compact('row','model','date','user'));
     }
 
     /**
