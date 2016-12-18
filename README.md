@@ -57,6 +57,13 @@ Add the following inside your AppController Class
 ```
 
 
+Finally, you'll also need to run migration on the package
+
+```php
+    cake migrations migrate -p CakeSimpleModelHistory
+```
+
+
 Attach the behavior in the models you want with:
 
 ```php
