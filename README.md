@@ -7,7 +7,7 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:		
 		
 ```		
-composer require your-name-here/CakeSimpleModelHistory		
+composer require mazba/CakeSimpleModelHistory		
 ```		
 # cake-simple-model-history		
 CakePHP 3 Simple Model History is the history management tools for tracking database records changes
