@@ -8,7 +8,7 @@ Add the following lines to your application's `composer.json`:
 
 ```php
     "require": {
-       "mazba/cake-simple-model-history:dev-master"
+       "mazba/cake-simple-model-history": "dev-master"
     }	
 ```
 followed by the command:
@@ -19,7 +19,7 @@ Or
 The recommended way to install composer packages is:		
 		
 ```php		
-    composer require "mazba/cake-simple-model-history": "dev-master"	
+    composer require "mazba/cake-simple-model-history:dev-master"	
 ```		
 
 
