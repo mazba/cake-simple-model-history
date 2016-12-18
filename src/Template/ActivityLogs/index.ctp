@@ -56,10 +56,16 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div id="modal-wrp" class="modal-content">
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
         var url = "<?= $this->Url->build(["controller" => "ActivityLogs","action" => "ajax",'index']); ?>";
-
         // prepare the data
         var source =
         {
@@ -79,7 +85,9 @@
         };
 
         var dataAdapter = new $.jqx.dataAdapter(source);
-
+        var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+            return '<button data-id="'+value+'" data-toggle="modal" data-target=".bs-example-modal-lg" class="grid-btn btn btn-primary btn-sm" style="padding: 0 7px 0 7px!important;  margin: 3px 0 0 14px!important;">Details</button>';
+        };
         $("#dataTable").jqxGrid(
             {
                 width: '100%',
@@ -95,12 +103,32 @@
                 autoheight: true,
                 columns: [
                     {text: 'Model', dataField: 'model', width: '20%'},
-                    {text: 'User', dataField: 'user', width: '20%'},
+                    {text: 'User', dataField: 'user', width: '10%'},
                     {text: 'Group', dataField: 'edit', cellsalign: 'center', width: '15%'},
                     {text: 'IP Address', dataField: 'ip_address', cellsalign: 'center', width: '15%'},
                     {text: 'Action', dataField: 'action', cellsalign: 'center', width: '15%'},
-                    {text: 'Date', dataField: 'date', cellsalign: 'center', width: '15%'}
+                    {text: 'Date', dataField: 'date', cellsalign: 'center', width: '15%'},
+                    { text: 'Action', datafield: 'id', cellsalign: 'right', cellsrenderer: cellsrenderer, editable: false, width: '10%' },
                 ]
             });
+        $(document).on('click','.grid-btn',function(){
+            $('#modal-wrp').html('<h2 style="text-align: center; padding: 10px">loading...</h2>');
+            var Id = $(this).data('id');
+            var url = "<?= $this->Url->build(["controller" => "ActivityLogs","action" => "view"]); ?>/"+Id;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data, status)
+                {
+                    $('#modal-wrp').html(data);
+                },
+                error: function (xhr, desc, err)
+                {
+                    console.log("error");
+
+                }
+            });
+        });
     });
+
 </script>

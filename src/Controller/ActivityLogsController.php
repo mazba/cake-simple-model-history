@@ -44,7 +44,7 @@ class ActivityLogsController extends AppController
         $activityLog = $this->ActivityLogs->get($id, [
             'contain' => ['Users', 'UserGroups']
         ]);
-
+        $this->viewBuilder()->layout('ajax');
         $this->set('activityLog', $activityLog);
         $this->set('_serialize', ['activityLog']);
     }

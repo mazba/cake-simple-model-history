@@ -7,6 +7,7 @@ Router::plugin(
     'CakeSimpleModelHistory',
     ['path' => '/cake-simple-model-history'],
     function (RouteBuilder $routes) {
+        $routes->connect('/', ['controller' => 'ActivityLogs', 'action' => 'index']);
         $routes->fallbacks(DashedRoute::class);
     }
 );

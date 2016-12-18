@@ -1,58 +1,33 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Activity Log'), ['action' => 'edit', $activityLog->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Activity Log'), ['action' => 'delete', $activityLog->id], ['confirm' => __('Are you sure you want to delete # {0}?', $activityLog->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Activity Logs'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Activity Log'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List User Groups'), ['controller' => 'UserGroups', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User Group'), ['controller' => 'UserGroups', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="activityLogs view large-9 medium-8 columns content">
-    <h3><?= h($activityLog->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th scope="row"><?= __('Model') ?></th>
-            <td><?= h($activityLog->model) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('User') ?></th>
-            <td><?= $activityLog->has('user') ? $this->Html->link($activityLog->user->id, ['controller' => 'Users', 'action' => 'view', $activityLog->user->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('User Group') ?></th>
-            <td><?= $activityLog->has('user_group') ? $this->Html->link($activityLog->user_group->id, ['controller' => 'UserGroups', 'action' => 'view', $activityLog->user_group->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Action') ?></th>
-            <td><?= h($activityLog->action) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Ip Address') ?></th>
-            <td><?= h($activityLog->ip_address) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Url') ?></th>
-            <td><?= h($activityLog->url) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($activityLog->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($activityLog->created) ?></td>
-        </tr>
-    </table>
+<?php echo $this->Html->css('CakeSimpleModelHistory.app'); ?>
+<div class="mk-wrp">
+    <h2 class="header">Details view of <strong style="color: #F3565D;"><?= $activityLog['model']?></strong> Model,<small> at <?= $activityLog['created'] ?></small></h2>
     <div class="row">
-        <h4><?= __('Data') ?></h4>
-        <?= $this->Text->autoParagraph(h($activityLog->data)); ?>
-    </div>
-    <div class="row">
-        <h4><?= __('User Input Data') ?></h4>
-        <?= $this->Text->autoParagraph(h($activityLog->user_input_data)); ?>
+        <h4 style="font-weight: bold"><?= __('User Logs') ?></h4>
+       <div class="col-md-12">
+           <table class="table">
+                <tbody>
+                    <?php if($activityLog['user']['name_en']): ?>
+                    <tr><th><?= __('User') ?></th><td><?= $activityLog['user']['name_en'] ?></td></tr>
+                    <?php endif; ?>
+                    <?php if($activityLog['user']['name_en']): ?>
+                    <tr><th><?= __('User Group') ?></th><td><?= $activityLog['user_group']['title_en'] ?></td></tr>
+                    <?php endif ?>
+                    <tr><th><?= __('User IP') ?></th><td><?= $activityLog['ip_address'] ?></td></tr>
+                    <tr><th><?= __('Url') ?></th><td><?= $activityLog['url'] ?></td></tr>
+                    <tr><th><?= __('Action') ?></th><td><span class="label label-danger"><?= $activityLog['action'] ?></span></td></tr>
+                </tbody>
+           </table>
+       </div>
+       <h4 style="font-weight: bold"><?= __('Data Log Details') ?></h4>
+        <div class="col-md-12">
+            <?php
+                $data = json_decode($activityLog['data'],TRUE);
+                if(isset($data['new_data']))
+                    echo $this->element('updateActionTbl',['data'=>$data]);
+                else
+                    echo $this->element('createActionTbl',['data'=>$data]);
+
+            ?>
+        </div>
     </div>
 </div>
