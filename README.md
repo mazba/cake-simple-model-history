@@ -72,5 +72,5 @@ Attach the behavior in the models you want with:
     }
 ```
 
-# cake-simple-model-history		
-CakePHP 3 Simple Model History is the history management tools for tracking database records changes
+To view history : /cake-simple-model-history
+-----------------
